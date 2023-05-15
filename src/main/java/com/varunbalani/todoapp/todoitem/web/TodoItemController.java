@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,7 +18,6 @@ import com.varunbalani.todoapp.todoitem.TodoItemNotFoundException;
 import com.varunbalani.todoapp.todoitem.TodoItemRepository;
 
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/")
@@ -98,14 +96,8 @@ public class TodoItemController {
 
 	}
 
-	@PostMapping
-	public String addNewTodoItem(@Valid @ModelAttribute("item") TodoItemFormData formData) {
-		repository.save(new TodoItem(formData.getTitle(), false));
-		return "redirect:/";
-	}
-
 	@PostMapping(headers = "HX-Request")
-	public String htmxAddTodoItem(TodoItemFormData formData, Model model, HttpServletResponse response) {
+	public String addTodoItem(TodoItemFormData formData, Model model, HttpServletResponse response) {
 		TodoItem item = repository.save(new TodoItem(formData.getTitle(), false));
 		model.addAttribute("item", convertToDTO(item));
 		response.setHeader("HX-Trigger", "itemAdded");
@@ -113,13 +105,13 @@ public class TodoItemController {
 	}
 
 	@GetMapping(value = "/active-items-count", headers = "HX-Request")
-	public String htmxGetActiveItemsCount(Model model, HttpServletResponse response) {
+	public String getActiveItemsCount(Model model, HttpServletResponse response) {
 		model.addAttribute("numberOfActiveItems", getNumberOfActiveItems());
 		return "active-item-count-fragment :: active-items-count";
 	}
 
 	@PutMapping(value = "/{id}/toggle", headers = "HX-Request")
-	public String htmxToggleTodoItem(@PathVariable("id") Long id, Model model, HttpServletResponse response) {
+	public String toggleTodoItem(@PathVariable("id") Long id, Model model, HttpServletResponse response) {
 		TodoItem todoItem = repository.findById(id).orElseThrow(() -> new TodoItemNotFoundException(id));
 		todoItem.setCompleted(!todoItem.isCompleted());
 		repository.save(todoItem);
@@ -131,25 +123,10 @@ public class TodoItemController {
 
 	@DeleteMapping(value = "/{id}", headers = "HX-Request")
 	@ResponseBody
-	public String htmxDeleteTodoItem(@PathVariable("id") Long id, HttpServletResponse response) {
+	public String deleteTodoItem(@PathVariable("id") Long id, HttpServletResponse response) {
 		repository.deleteById(id);
 		response.setHeader("HX-Trigger", "itemDeleted");
 		return "";
-	}
-
-	@PutMapping("/{id}/toggle")
-	public String toggleSelection(@PathVariable("id") Long id) {
-		TodoItem todoItem = repository.findById(id).orElseThrow(() -> new TodoItemNotFoundException(id));
-		todoItem.setCompleted(!todoItem.isCompleted());
-		repository.save(todoItem);
-		return "redirect:/";
-	}
-
-	@DeleteMapping("/{id}")
-	public String deleteTodoItem(@PathVariable("id") Long id) {
-		repository.deleteById(id);
-
-		return "redirect:/";
 	}
 
 	@DeleteMapping("/completed")
