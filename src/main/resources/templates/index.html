@@ -6,14 +6,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Todo List</title>
-     <link th:href="@{/styles/index.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Atkinson+Hyperlegible">
+    <link rel="stylesheet" th:href="@{/styles/index.css}"/>
 </head>
 <body>
-<section class="todoapp">
+<section id="todoapp">
     <header class="header">
-        <h1>todos</h1>
+        <div id="navbar">
+        	<h1>ToDo List</h1>
+        </div>
         <form id="new-todo-form" th:action="@{/}" method="post" th:object="${item}">
             <input id="new-todo-input" class="new-todo" placeholder="What needs to be done?" autofocus
+            	   required
                    th:field="*{title}"
                    name="title"
                    hx-target="#todo-list"
@@ -24,45 +29,39 @@
                    >
         </form>
     </header>
-    <!-- This section should be hidden by default and shown when there are todos -->
-    <section id="main-section" class="main" th:classappend="${totalNumberOfItems == 0?'hidden':''}">
-        <form th:action="@{/toggle-all}" th:method="put">
-            <input id="toggle-all" 
-	            class="toggle-all" 
-	            type="checkbox"
-	            hx-trigger="click"
-               	hx-swap="outerHTML"
-                   onclick="this.form.requestSubmit()">
-            <label for="toggle-all">Mark all as complete</label>
-        </form>
-        <ul id="todo-list" class="todo-list" th:remove="all-but-first">
+    <section id="main-section" class="main"  th:classappend="${totalNumberOfItems == 0?'hidden':''}">
+        <div id="buttons">
+	        <form th:action="@{/toggle-all}" th:method="put" >
+	            <button id="toggle-all" 
+		            class="toggle-all" 
+		            type="checkbox"
+		            hx-trigger="click"
+	               	hx-swap="outerHTML"
+	                   onclick="this.form.requestSubmit()">
+	                   Toggle all
+	             </button>
+	        </form>
+	                <form th:action="@{/completed}" th:method="delete">
+	            <button id="clear-completed">Clear completed</button>
+	        </form>
+        </div>
+        <ul id="todo-list" class="todo-list">
             <li th:insert="~{todoitem-fragment::todoItem(${item})}" th:each="item : ${todos}" th:remove="tag">
             </li>
         </ul>
     </section>
     <!-- This footer should be hidden by default and shown when there are todos -->
-    <footer id="main-footer" class="footer" th:classappend="${totalNumberOfItems == 0?'hidden':''}">
+    <footer id="main-footer" class="footer"  th:classappend="${totalNumberOfItems == 0?'hidden':''}">
         <!-- This should be `0 items left` by default -->
         <span th:replace="active-item-count-fragment :: active-items-count"></span>
-        <ul class="filters">
-            <li>
-                <a th:href="@{/}"
+        <div class="filters">
+        	<a class="filter" th:href="@{/}"
                    th:classappend="${filter.name() == 'ALL'?'selected':''}">All</a>
-            </li>
-            <li>
-                <a th:href="@{/active}"
+            <a class="filter" th:href="@{/active}"
                    th:classappend="${filter.name() == 'ACTIVE'?'selected':''}">Active</a>
-            </li>
-            <li>
-                <a th:href="@{/completed}"
+            <a class="filter" th:href="@{/completed}"
                    th:classappend="${filter.name() == 'COMPLETED'?'selected':''}">Completed</a>
-            </li>
-        </ul>
-        <!-- Hidden if no completed items are left ↓ -->
-        <form th:action="@{/completed}" th:method="delete"
-              th:if="${numberOfCompletedItems > 0}">
-            <button class="clear-completed">Clear completed</button>
-        </form>
+        </div>
     </footer>
 </section>
 <!-- Scripts here. Don't remove ↓ -->

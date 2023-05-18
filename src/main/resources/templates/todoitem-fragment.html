@@ -18,8 +18,9 @@
 	        th:attr="hx-delete=@{/{id}(id=${item.id})}, hx-target=|#list-item-${item.id}|"
 	        hx-trigger="click"
 	        hx-swap="outerHTML"
-		></button>
+		>
+			<i class="fas fa-trash"></i>
+		</button>
     </div>
-    <input class="edit">
 </li>
 </html>
