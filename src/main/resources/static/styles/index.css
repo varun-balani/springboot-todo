@@ -124,7 +124,7 @@ html, body {
 }
 
 
-.filters {
+#filters {
 	margin-top: 25px;
 	display: flex;
     justify-content: space-between;
@@ -137,12 +137,14 @@ html, body {
 	background-color: #0d1324;
 	color: #e1e7ef;
 	width: 7.5em;
-	line-height: 1.5em;
+	line-height: 1.8em;
 	height: 1.8em;
 	border-radius: 15px;
 	text-decoration: none;
+	cursor: pointer;
 }
 
 .selected {
+	line-height: 1.5em;
 	border: 3px solid #ffffff;
 }

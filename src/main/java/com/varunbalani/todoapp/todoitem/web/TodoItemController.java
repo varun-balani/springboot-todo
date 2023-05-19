@@ -39,13 +39,13 @@ public class TodoItemController {
 		return "index";
 	}
 
-	@GetMapping("/active")
+	@GetMapping(value = "/active")
 	public String indexActive(Model model) {
 		addAttributesForIndex(model, ListFilter.ACTIVE);
 		return "index";
 	}
 
-	@GetMapping("/completed")
+	@GetMapping(value = "/completed")
 	public String indexCompleted(Model model) {
 		addAttributesForIndex(model, ListFilter.COMPLETED);
 		return "index";

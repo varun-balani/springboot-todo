@@ -54,13 +54,10 @@
     <footer id="main-footer" class="footer"  th:classappend="${totalNumberOfItems == 0?'hidden':''}">
         <!-- This should be `0 items left` by default -->
         <span th:replace="active-item-count-fragment :: active-items-count"></span>
-        <div class="filters">
-        	<a class="filter" th:href="@{/}"
-                   th:classappend="${filter.name() == 'ALL'?'selected':''}">All</a>
-            <a class="filter" th:href="@{/active}"
-                   th:classappend="${filter.name() == 'ACTIVE'?'selected':''}">Active</a>
-            <a class="filter" th:href="@{/completed}"
-                   th:classappend="${filter.name() == 'COMPLETED'?'selected':''}">Completed</a>
+        <div id="filters">
+        	<a class="filter selected">All</a>
+            <a class="filter">Active</a>
+            <a class="filter">Completed</a>
         </div>
     </footer>
 </section>
@@ -86,6 +83,28 @@
             mainFooter.classList.add('hidden');
         }
     });
+    document.querySelectorAll(".filter").forEach(link => {
+    	link.addEventListener('click', () => {
+    		document.querySelectorAll(".filter").forEach(filterLink => {
+    		      filterLink.classList.remove('selected');
+    		});
+    		link.classList.add('selected');
+    	    const filter = link.textContent.trim().toLowerCase();
+    	    const viewItems = document.querySelectorAll('.view');
+    	    viewItems.forEach(item => {
+    	      const checkbox = item.querySelector('.toggle');
+    	      if (checkbox && checkbox.checked && filter === 'completed') {
+    	        item.style.display = 'flex';
+    	      } else if (checkbox && !checkbox.checked && filter === 'active') {
+    	        item.style.display = 'flex'; 
+    	      } else if (filter === 'all') {
+    	        item.style.display = 'flex';
+    	      } else {
+    	        item.style.display = 'none';
+    	      }
+    	    });
+    	  });
+    })
 </script>
 </body>
 </html>
