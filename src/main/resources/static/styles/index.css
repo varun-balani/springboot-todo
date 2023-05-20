@@ -96,9 +96,8 @@ html, body {
     cursor: pointer;
 }
 
-
 .destroy {
-	font-size: 16px;
+	font-size: 18px;
 	background-color: #030711;
 	color: #dc2626;
 	outline:none;
@@ -113,8 +112,8 @@ html, body {
 }
 
 .toggle {
-	width: 16px;
-    height: 16px;
+	width: 18px;
+    height: 18px;
     border: none;
     border-radius: 4px;
 }
