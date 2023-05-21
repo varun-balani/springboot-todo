@@ -20,10 +20,34 @@ html, body {
     color: #e1e7ef;
 }
 
-#navbar {
+#title {
 	position: sticky;
-	top:0;
-	padding:20px;
+	top:-10;
+	padding: 0px 20px;
+}
+
+#title h1 {
+	margin: 25px 0px;
+}
+
+#navbar {
+	display: flex;
+	flex-direction: column;
+	width: 90vw;
+	justify-content: center;
+	align-items: flex-end;
+}
+
+#logout {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #0f1629;
+    border: none;
+    color: #e1e7ef;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Atkinson Hyperlegible';
 }
 
 .new-todo {

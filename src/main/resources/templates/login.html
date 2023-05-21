@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Atkinson+Hyperlegible">
+    <link rel="stylesheet" th:href="@{/styles/login.css}"/>
+</head>
+<body>
+<div>
+    <div id="content">
+        <h1 id="heading">Sign In</h1>
+        <form id="login-form" th:action="@{/login}" method="post">
+            <div class="container">
+                <label class="label" for="username">Username</label>
+                <input id="username" type="text" name="username" autocomplete="off"
+                       class="form-input" placeholder="Your Username">
+            </div>
+
+            <div class="container">
+                <label class="label" for="password">Password</label>
+                <input id="password" type="password" name="password" autocomplete="off"
+                       class="form-input" placeholder="Your Password">
+            </div>
+            <div id="submit">
+                <input id="login-button"
+                      type="submit" value="Login">
+            </div>
+
+        </form>
+        <div id="register">
+            <p>
+                Don't have an account? <a id="register-button" href="#" >Create an Account</a>.
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
